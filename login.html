@@ -209,13 +209,21 @@
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const user = userCredential.user;  // <-- FIX: get user object here
 
       if (!user.emailVerified) {
         authMessage.textContent = "Please verify your email before signing in.";
         authMessage.style.color = "#f39c12";
         return;
       }
+
+      // Extract first name from email (remove digits and split on '.' or '_')
+      const emailFromUser = user.email;
+      const firstName = emailFromUser.split('@')[0].replace(/[0-9]/g, '').split(/[._]/)[0];
+      const displayName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+      // Save displayName to localStorage for dashboard use
+      localStorage.setItem("userName", displayName);
 
       window.location.href = "/dashboard.html";
     } catch (error) {
