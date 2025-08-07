@@ -314,34 +314,36 @@
   </main>
 
   <script>
-    // Simulated user fetch
-    document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => {
-        document.getElementById("user-name").textContent = "Mrs Adeyinka";
-      }, 500);
+  document.addEventListener("DOMContentLoaded", () => {
+    // Get the stored username or default to "User"
+    const storedName = localStorage.getItem("userName") || "User";
 
-      const hamburger = document.getElementById('hamburger');
-      const navMenu = document.getElementById('navMenu');
+    // Display the username in the dashboard
+    document.getElementById("user-name").textContent = storedName;
 
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('open');
-      });
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
 
-      hamburger.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          hamburger.click();
-        }
-      });
-
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        if (confirm("Are you sure you want to logout?")) {
-          alert("Logged out successfully.");
-          // Add actual logout logic here
-        }
-      });
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('open');
     });
-  </script>
-</body>
-</html>
+
+    hamburger.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        hamburger.click();
+      }
+    });
+
+    // Logout button logic
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("userName");
+        alert("Logged out successfully.");
+        window.location.href = "/login.html"; // Redirect to login page
+      }
+    });
+  });
+</script>
