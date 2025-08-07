@@ -172,76 +172,83 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBl10iIOsFLEPGBLjiM4nIeTuORCp8blhg",
-      authDomain: "debrilliant-academy.firebaseapp.com",
-      projectId: "debrilliant-academy",
-      storageBucket: "debrilliant-academy.firebasestorage.app",
-      messagingSenderId: "370700525079",
-      appId: "1:370700525079:web:c827e83f3452797e4e8652",
-      measurementId: "G-X487BF0Q8Z"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBl10iIOsFLEPGBLjiM4nIeTuORCp8blhg",
+    authDomain: "debrilliant-academy.firebaseapp.com",
+    projectId: "debrilliant-academy",
+    storageBucket: "debrilliant-academy.firebasestorage.app",
+    messagingSenderId: "370700525079",
+    appId: "1:370700525079:web:c827e83f3452797e4e8652",
+    measurementId: "G-X487BF0Q8Z"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    const emailInput = document.getElementById('signin-email');
-    const passwordInput = document.getElementById('signin-password');
-    const signinBtn = document.getElementById('signin-btn');
-    const authMessage = document.getElementById('auth-message');
-    const forgotPasswordLink = document.getElementById('forgot-password');
+  const emailInput = document.getElementById('signin-email');
+  const passwordInput = document.getElementById('signin-password');
+  const signinBtn = document.getElementById('signin-btn');
+  const authMessage = document.getElementById('auth-message');
+  const forgotPasswordLink = document.getElementById('forgot-password');
 
-    signinBtn.addEventListener('click', async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
+  signinBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-      if (!email || !password) {
-        authMessage.textContent = "Please fill out both fields.";
-        authMessage.style.color = "#e67e22";
+    if (!email || !password) {
+      authMessage.textContent = "Please fill out both fields.";
+      authMessage.style.color = "#e67e22";
+      return;
+    }
+
+    authMessage.textContent = "Signing in...";
+    authMessage.style.color = "#333";
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        authMessage.textContent = "Please verify your email before signing in.";
+        authMessage.style.color = "#f39c12";
         return;
       }
 
-      authMessage.textContent = "Signing in...";
-      authMessage.style.color = "#333";
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        if (!user.emailVerified) {
-          authMessage.textContent = "Please verify your email before signing in.";
-          authMessage.style.color = "#f39c12";
-          return;
-        }
-
-        window.location.href = "/dashboard.html";
-      } catch (error) {
+      window.location.href = "/dashboard.html";
+    } catch (error) {
+      // Customize error messages for invalid credentials
+      if (
+        error.code === 'auth/invalid-credential' ||
+        error.code === 'auth/wrong-password' ||
+        error.code === 'auth/user-not-found'
+      ) {
+        authMessage.textContent = "Invalid credentials";
+      } else {
         authMessage.textContent = error.message;
-        authMessage.style.color = "#e74c3c";
       }
-    });
+      authMessage.style.color = "#e74c3c";
+    }
+  });
 
-    forgotPasswordLink.addEventListener('click', async () => {
-      const email = emailInput.value.trim();
+  forgotPasswordLink.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
 
-      if (!email) {
-        authMessage.textContent = "Enter your email address to reset your password.";
-        authMessage.style.color = "#e67e22";
-        return;
-      }
+    if (!email) {
+      authMessage.textContent = "Enter your email address to reset your password.";
+      authMessage.style.color = "#e67e22";
+      return;
+    }
 
-      try {
-        await sendPasswordResetEmail(auth, email);
-        authMessage.textContent = "Password reset email sent. Check your inbox.";
-        authMessage.style.color = "#27ae60";
-      } catch (error) {
-        authMessage.textContent = error.message;
-        authMessage.style.color = "#e74c3c";
-      }
-    });
-  </script>
-</body>
-</html>
+    try {
+      await sendPasswordResetEmail(auth, email);
+      authMessage.textContent = "Password reset email sent. Check your inbox.";
+      authMessage.style.color = "#27ae60";
+    } catch (error) {
+      authMessage.textContent = error.message;
+      authMessage.style.color = "#e74c3c";
+    }
+  });
+</script>
