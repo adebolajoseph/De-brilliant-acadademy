@@ -1,0 +1,284 @@
+/* ========== GLOBAL STYLES ========== */
+:root {
+  --primary: #1846a3;      /* School blue */
+  --secondary: #00b386;    /* Accent green */
+  --light-bg: #f8f9fa;
+  --text: #333;
+  --muted: #666;
+  --card-bg: #fff;
+  --border: #ddd;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: var(--light-bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ========== HEADER / NAV ========== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 20px;
+}
+
+header .brand {
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#main-nav {
+  display: flex;
+  gap: 20px;
+}
+
+#main-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+#main-nav a:hover,
+#main-nav a.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  min-width: 150px;
+  z-index: 100;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background: var(--light-bg);
+}
+
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.logout-btn {
+  margin-left: 15px;
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ========== MAIN CONTENT ========== */
+main {
+  padding: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* ========== INPUT GROUPS ========== */
+.input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.input-group textarea {
+  resize: vertical;
+}
+
+.input-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0f3279;
+}
+
+.btn.secondary {
+  background: var(--secondary);
+}
+
+.btn.secondary:hover {
+  background: #008f68;
+}
+
+.btn.rounded {
+  border-radius: 30px;
+}
+
+/* ========== REPORT CARDS ========== */
+.scroll-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.report-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.status-good {
+  background: green;
+}
+
+.status-warning {
+  background: orange;
+}
+
+.report-content {
+  flex: 1;
+}
+
+.report-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* ========== TABLE STYLING ========== */
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid var(--border);
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+table th {
+  background: var(--light-bg);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  #main-nav {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    margin: 10px;
+    padding: 15px;
+  }
+}
